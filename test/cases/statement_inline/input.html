@@ -1,5 +1,5 @@
-<title>{%block title%} {%endblock%}</title>
+<title>[%BLOCK title%] [%END%]</title>
 
-<div class="{%if class%}{{class}}{%endif%}"></div>
+<div class="[%IF class%][%class%][%END%]"></div>
 
-<div class="{%if class%}{{class}}{%else%}default{%endif%}"></div>
+<div class="[%IF class%][%class%][%ELSE%]default[%END%]"></div>

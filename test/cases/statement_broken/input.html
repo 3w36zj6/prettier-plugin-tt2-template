@@ -1,8 +1,8 @@
 <body>
-<h1>{{title}}</h1>
-{%else if href == "random.html" %}
-<h2>{{title}}</h2>
-{%else%}
-<h3>{{title}}</h3>
-{% endif %}
+<h1>[% title %]</h1>
+[% ELSIF href == "random.html" %]
+<h2>[% title %]</h2>
+[% ELSE %]
+<h3>[% title %]</h3>
+[% END %]
 </body>

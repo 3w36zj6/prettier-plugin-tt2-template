@@ -1,19 +1,19 @@
 <div>
-  {% for row in database %}
+  [% FOREACH row IN database %]
     <ul>
-      {% for element in row %}
+      [% FOREACH element IN row %]
         <li>
-          {% if element.active %}
-            {{ element.description }}
-          {% endif %}
+          [% IF element.active %]
+            [% element.description %]
+          [% END %]
         </li>
-      {% endfor %}
+      [% END %]
     </ul>
-  {% endfor %}
-  {% for row in res %}
-    <p>{{ row[0] }}</p>
-    <p>{{ row[1] }}</p>
-    <p>{{ row[2] }}</p>
-    <p>{{ row[3] }}</p>
-  {% endfor %}
+  [% END %]
+  [% FOREACH row IN res %]
+    <p>[% row.0 %]</p>
+    <p>[% row.1 %]</p>
+    <p>[% row.2 %]</p>
+    <p>[% row.3 %]</p>
+  [% END %]
 </div>

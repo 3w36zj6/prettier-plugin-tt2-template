@@ -1,7 +1,7 @@
 <body>
-  {% if href in ['layout.html', 'index.html, 'about.html', 'user.html'] %}
-    <h1>{{ title }}</h1>
-  {% else %}
-    <h2>{{ title }}</h2>
-  {% endif %}
+  [% IF href IN ['layout.html', 'index.html', 'about.html', 'user.html'] %]
+    <h1>[% title %]</h1>
+  [% ELSE %]
+    <h2>[% title %]</h2>
+  [% END %]
 </body>

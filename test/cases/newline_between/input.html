@@ -1,53 +1,53 @@
-{% extends "base.html" %}
-	
-    
-	{% block title %}Index{% endblock %}
-    
-	
-{% block head %}
-    {{ super() }}
+[% WRAPPER 'base.html' %]
+
+
+    [% BLOCK title %]Index[% END %]
+
+
+[% BLOCK head %]
+    [% super() %]
     <style type="text/css">
         .important { color: #336699; }
     </style>
-{% endblock %}
-	
-    
-{{title}}
-    
-	
-{# content #}
-{% block content %}
+[% END %]
+
+
+[%title%]
+
+
+[%# content #%]
+[% BLOCK content %]
     <h1>Index</h1>
     <p class="important">
       Welcome to my awesome homepage.
     </p>
-  
-{% endblock %}
+
+[% END %]
 
 <div></div>
 
-{{name}}
+[%name%]
 
 
-{% for user in users %}
-    <li>{{ user.username|e }}</li>
+[% FOREACH user IN users %]
+    <li>[% user.username|html %]</li>
 
 
-	{% else %}
+	[% ELSE %]
     <li><em>no users found</em></li>
 
-	{% endfor %}
+	[% END %]
 
-{% macro input(name, value='', type='text', size=20) %}
+[% MACRO input(name, value='', type='text', size=20) %]
 
-{{ my_variable|default('my_variable is not defined') }}
+[% my_variable|default('my_variable is not defined') %]
 
-{% for city, items in users|groupby("city") %}
-<li>{{ city }}
-<ul>{% for user in items %}
-<li>{{ user.name }}
-{% endfor %}</ul>
+[% FOREACH city, items IN List.group(users, 'city') %]
+<li>[% city %]
+<ul>[% FOREACH user IN items %]
+<li>[% user.name %]
+[% END %]</ul>
 </li>
-{% endfor %}
+[% END %]
 
-{% endmacro %}
+[% END %]

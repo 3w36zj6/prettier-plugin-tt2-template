@@ -1,7 +1,7 @@
 <ul>
-  {% for user in users %}
-    <li>{{ user.username|e }}</li>
-  {% else %}
+  [% FOREACH user IN users %]
+    <li>[% user.username|e %]</li>
+  [% ELSE %]
     <li><em>no users found</em></li>
-  {% endfor %}
+  [% END %]
 </ul>

@@ -1,10 +1,10 @@
 <ul>
-{% for href, caption in [
-  ('index.html', 'Index'),
-  ('about.html', 'About'),  
-  ('downloads.html', 'Downloads')
+[% FOREACH item IN [
+  { href => 'index.html', caption => 'Index' },
+  { href => 'about.html', caption => 'About' },
+  { href => 'downloads.html', caption => 'Downloads' }
 ]
-%}
-<li><a href="{{ href }}">{{ caption }}</a></li>
-{% endfor %}
+%]
+<li><a href="[% item.href %]">[% item.caption %]</a></li>
+[% END %]
 </ul>

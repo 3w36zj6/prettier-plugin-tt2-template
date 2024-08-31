@@ -1,6 +1,6 @@
 <ul>
-  {% set seq +%}
-  {%- for item in seq -%}
-    <li>{{ item }}</li>
-  {%- endfor %}
+  [% SET seq %]
+  [% FOREACH item IN seq -%]
+    <li>[% item %]</li>
+  [% END -%]
 </ul>

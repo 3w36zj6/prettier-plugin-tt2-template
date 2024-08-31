@@ -1,7 +1,7 @@
 <html>
-{% for item in seq %}
-{% include 'header.html' %}
-{% include 'body.html' %}
-{% include 'footer.html' %}
-{% endfor %}
+[% FOREACH item IN seq %]
+[% INCLUDE 'header.html' %]
+[% INCLUDE 'body.html' %]
+[% INCLUDE 'footer.html' %]
+[% END %]
 </html>

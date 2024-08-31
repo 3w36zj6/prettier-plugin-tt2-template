@@ -1,14 +1,14 @@
-{% if True %}
-  <div>{{ abc }}</div>
-{% endif %}
-{% if True %}
-  <div>{{ abc }}</div>
-{% else %}
+[% IF 1 %]
+  <div>[% abc %]</div>
+[% END %]
+[% IF 1 %]
+  <div>[% abc %]</div>
+[% ELSE %]
   <div>
-    {% if False %}
-      <div>{{ bcd }}</div>
-    {% else %}
-      <div>{{ cde }}</div>
-    {% endif %}
+    [% IF 0 %]
+      <div>[% bcd %]</div>
+    [% ELSE %]
+      <div>[% cde %]</div>
+    [% END %]
   </div>
-{% endif %}
+[% END %]
