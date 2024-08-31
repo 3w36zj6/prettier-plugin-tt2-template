@@ -1,25 +1,23 @@
 {
-	"name": "prettier-plugin-jinja-template",
-	"version": "1.5.0",
-	"description": "Prettier plugin for formatting jinja templates.",
-	"author": "David Odenwald",
+	"name": "prettier-plugin-tt2-template",
+	"version": "1.0.0",
+	"description": "Prettier plugin for formatting TT2 templates.",
+	"author": "3w36zj6",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/davidodenwald/prettier-plugin-jinja-template.git"
+		"url": "git+https://github.com/3w36zj6/prettier-plugin-tt2-template.git"
 	},
 	"bugs": {
-		"url": "https://github.com/davidodenwald/prettier-plugin-jinja-template/issues"
+		"url": "https://github.com/3w36zj6/prettier-plugin-tt2-template/issues"
 	},
-	"homepage": "https://github.com/davidodenwald/prettier-plugin-jinja-template#readme",
+	"homepage": "https://github.com/3w36zj6/prettier-plugin-tt2-template#readme",
 	"keywords": [
 		"prettier",
 		"plugin",
 		"template",
 		"html",
-		"jinja",
-		"jinja2",
-		"flask"
+		"tt2"
 	],
 	"main": "lib/index.js",
 	"scripts": {

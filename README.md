@@ -1,17 +1,17 @@
-# prettier-plugin-jinja-template
+# prettier-plugin-tt2-template
 
-Formatter plugin for jinja2 template files.
+Formatter plugin for Template Toolkit (TT2) template files.
 
 ## Install
 
 ```bash
-npm install --save-dev prettier prettier-plugin-jinja-template
+npm install --save-dev prettier prettier-plugin-tt2-template
 ```
 
 Add the plugin to your `.prettierrc`:
 ```json
 {
-  "plugins": ["prettier-plugin-jinja-template"]
+  "plugins": ["prettier-plugin-tt2-template"]
 }
 ```
 
@@ -24,7 +24,7 @@ To format basic .html files, you'll have to override the used parser inside your
     {
       "files": ["*.html"],
       "options": {
-        "parser": "jinja-template"
+        "parser": "tt2-template"
       }
     }
   ]
@@ -38,12 +38,12 @@ npx prettier --write **/*.html
 
 If you don't have a prettier config you can run the plugin with this command:
 ```bash
-npx prettier --plugin=prettier-plugin-jinja-template --parser=jinja-template --write **/*.html
+npx prettier --plugin=prettier-plugin-tt2-template --parser=tt2-template --write **/*.html
 ```
 
 ### Ignoring Code
 
-Using range ignores is the best way to tell prettier to igone part of files. Most of the time this is necessary for Jinja tags inside `script` or `style` tags:
+Using range ignores is the best way to tell prettier to igone part of files. Most of the time this is necessary for TT2 tags inside `script` or `style` tags:
 
 ```html
 <!-- prettier-ignore-start -->
@@ -59,39 +59,17 @@ Using range ignores is the best way to tell prettier to igone part of files. Mos
 <!-- prettier-ignore-end -->
 ```
 
-Or using Jinja comments:
-```jinja
-{# prettier-ignore-start #}
+Or using TT2 comments:
+```tt2
+[%# prettier-ignore-start #%]
   <script>
     window.someData = {{ data | safe }}
   </script>
-{# prettier-ignore-end #}
+[%# prettier-ignore-end #%]
 
-{# prettier-ignore-start #}
+[%# prettier-ignore-start #%]
   <style>
     :root { --accent-color: {{ theme_accent_color }} }
   </style>
-{# prettier-ignore-end #}
+[%# prettier-ignore-end #%]
 ```
-
-## Options
-
-This Plugin provides additional options:
-
-### Quote Attributes
-
-Surrounds the value of html attributes with quotes. This option was introduced to support [JinjaX](https://jinjax.scaletti.dev/) syntax.
-
-`true` - Example:
-```js
-<Paginator items="{products}" />
-```
-
-`false` - Example:
-```js
-<Paginator items={products} />
-```
-
-| Default | CLI Override            | API Override              |
-| ------- | ----------------------- | ------------------------- |
-| `true`  | `--no-quote-attributes` | `quoteAttributes: <bool>` |

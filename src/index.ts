@@ -1,4 +1,4 @@
-import { Node } from "./jinja";
+import { Node } from "./tt2";
 import { parse } from "./parser";
 import { print, embed, getVisitorKeys } from "./printer";
 import {
@@ -9,14 +9,14 @@ import {
 	ParserOptions,
 } from "prettier";
 
-const PLUGIN_KEY = "jinja-template";
+const PLUGIN_KEY = "tt2-template";
 
 export const languages: SupportLanguage[] = [
 	{
-		name: "JinjaTemplate",
+		name: "TT2Template",
 		parsers: [PLUGIN_KEY],
-		extensions: [".jinja", ".jinja2", ".j2", ".html"],
-		vscodeLanguageIds: ["jinja"],
+		extensions: [".tt", ".tt2", ".ttml", ".html"],
+		vscodeLanguageIds: ["tt2"],
 	},
 ];
 
@@ -41,11 +41,4 @@ export type extendedOptions = ParserOptions<Node> & {
 	quoteAttributes: boolean;
 };
 
-export const options: SupportOptions = {
-	quoteAttributes: {
-		type: "boolean",
-		category: PLUGIN_KEY,
-		default: true,
-		description: "Surrounds the value of html attributes with quotes.",
-	},
-};
+export const options: SupportOptions = {};

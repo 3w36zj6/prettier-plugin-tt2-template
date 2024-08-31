@@ -1,12 +1,12 @@
 import { existsSync, readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { format, Options } from "prettier";
-import * as jinjaPlugin from "../src/index";
+import * as tt2Plugin from "../src/index";
 
 const prettify = (code: string, options: Options) =>
 	format(code, {
-		parser: "jinja-template",
-		plugins: [jinjaPlugin],
+		parser: "tt2-template",
+		plugins: [tt2Plugin],
 		...options,
 	});
 

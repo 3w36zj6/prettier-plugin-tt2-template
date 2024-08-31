@@ -1,7 +1,7 @@
 import { AstPath, Doc, Options, Printer } from "prettier";
 import { builders, utils } from "prettier/doc";
 import { extendedOptions } from "./index";
-import { Block, Expression, Node, Placeholder, Statement } from "./jinja";
+import { Block, Expression, Node, Placeholder, Statement } from "./tt2";
 
 const NOT_FOUND = -1;
 

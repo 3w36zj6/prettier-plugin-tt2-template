@@ -6,7 +6,7 @@ import {
 	Expression,
 	Statement,
 	Block,
-} from "./jinja";
+} from "./tt2";
 
 const NOT_FOUND = -1;
 
