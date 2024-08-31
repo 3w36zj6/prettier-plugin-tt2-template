@@ -11,7 +11,7 @@ import {
 const NOT_FOUND = -1;
 
 const regex =
-	/(?<node>(?<ignoreBlock>(?:<!-- prettier-ignore-start -->|\[%# prettier-ignore-start #%\])[\s\S]*(?:<!-- prettier-ignore-end -->|\[%# prettier-ignore-end #%\]))|(?<comment>\[%#[\S\s]*?#%\])|\[%(?<startDelimiter>[-+]?)\s*(?<statement>(?<keyword>(?!INCLUDE|PROCESS|INSERT|WRAPPER|CALL|SET|DEFAULT|STOP|RETURN|CLEAR|META|USE|PERL|RAWPERL|FILTER)[A-Z]+|.*BLOCK)('([^']|\\')*'|"([^"]|\\")*"|[\S\s])*?)\s*(?<endDelimiter>[-+]?)%\]|\[%(?<startDelimiterEx>[-+]?)\s*(?<expression>'([^']|\\')*'|"([^"]|\\")*"|[\S\s]*?)\s*(?<endDelimiterEx>[-+]?)%\]|(?<scriptBlock><(script)((?!<)[\s\S])*?>((?!<\/script)[\s\S])*?\[%[\s\S]*?<\/(script)>)|(?<styleBlock><(style)((?!<)[\s\S])*?>((?!<\/style)[\s\S])*?\[%[\s\S]*?<\/(style)>))/;
+	/(?<node>(?<ignoreBlock>(?:<!-- prettier-ignore-start -->|\[%# prettier-ignore-start #%\])([\s\S]*?)(?:<!-- prettier-ignore-end -->|\[%# prettier-ignore-end #%\]))|(?<comment>\[%#[\S\s]*?#%\])|\[%(?<startDelimiter>[-+]?)\s*(?<statement>(?<keyword>(?!GET|CALL|SET|DEFAULT|INSERT|INCLUDE|PROCESS|NEXT|LAST|USE|MACRO|THROW|RETURN|STOP|CLEAR|META|TAG|DEBUG)[A-Z]+|.*BLOCK|MACRO[ \t]+(?:[A-Za-z0-9_\-+*/%!()]+[ \t]+)*(?:WRAPPER|BLOCK|IF|UNLESS|ELSIF|ELSE|SWITCH|CASE|FOREACH|WHILE|FILTER|PERL|RAWPERL|TRY|THROW|CATCH|FINAL))('([^']|\\')*'|"([^"]|\\")*"|[\S\s])*?)\s*(?<endDelimiter>[-+]?)%\]|\[%(?<startDelimiterEx>[-+]?)\s*(?<expression>'([^']|\\')*'|"([^"]|\\")*"|[\S\s]*?)\s*(?<endDelimiterEx>[-+]?)%\]|(?<scriptBlock><(script)((?!<)[\s\S])*?>((?!<\/script)[\s\S])*?\[%[\s\S]*?<\/(script)>)|(?<styleBlock><(style)((?!<)[\s\S])*?>((?!<\/style)[\s\S])*?\[%[\s\S]*?<\/(style)>))/;
 export const parse: Parser<Node>["parse"] = (text) => {
 	const statementStack: Statement[] = [];
 
@@ -114,7 +114,7 @@ export const parse: Parser<Node>["parse"] = (text) => {
 				end: match.groups.endDelimiter,
 			};
 
-			if (keyword.startsWith("END")) {
+			if (keyword == "END") {
 				let start: Statement | undefined;
 				while (!start) {
 					start = statementStack.pop();
@@ -123,8 +123,8 @@ export const parse: Parser<Node>["parse"] = (text) => {
 						throw new Error(
 							`No opening statement found for closing statement "[% ${statement} %]".`,
 						);
-						
-					} else if (keyword === "END" && ["ELSE", "ELSIF"].includes(start.keyword)) {
+
+					} else if (["ELSE", "ELSIF", "CASE", "CATCH", "FINAL"].includes(start.keyword)) {
 						root.content = replaceAt(
 							root.content,
 							start.id,
