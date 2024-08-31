@@ -11,7 +11,7 @@ import {
 const NOT_FOUND = -1;
 
 const regex =
-	/(?<node>{{(?<startDelimiterEx>[-+]?)\s*(?<expression>'([^']|\\')*'|"([^"]|\\")*"|[\S\s]*?)\s*(?<endDelimiterEx>[-+]?)}}|{%(?<startDelimiter>[-+]?)\s*(?<statement>(?<keyword>\w+)('([^']|\\')*'|"([^"]|\\")*"|[\S\s])*?)\s*(?<endDelimiter>[-+]?)%}|(?<ignoreBlock>(?:<!-- prettier-ignore-start -->|{# prettier-ignore-start #})[\s\S]*(?:<!-- prettier-ignore-end -->|{# prettier-ignore-end #}))|(?<comment>{#[\S\s]*?#})|(?<scriptBlock><(script)((?!<)[\s\S])*>((?!<\/script)[\s\S])*?{{[\s\S]*?<\/(script)>)|(?<styleBlock><(style)((?!<)[\s\S])*>((?!<\/style)[\s\S])*?{{[\s\S]*?<\/(style)>))/;
+	/(?<node>{{(?<startDelimiterEx>[-+]?)\s*(?<expression>'([^']|\\')*'|"([^"]|\\")*"|[\S\s]*?)\s*(?<endDelimiterEx>[-+]?)}}|\[%(?<startDelimiter>[-+]?)\s*(?<statement>(?<keyword>\w+)('([^']|\\')*'|"([^"]|\\")*"|[\S\s])*?)\s*(?<endDelimiter>[-+]?)%\]|(?<ignoreBlock>(?:<!-- prettier-ignore-start -->|{# prettier-ignore-start #})[\s\S]*(?:<!-- prettier-ignore-end -->|{# prettier-ignore-end #}))|(?<comment>{#[\S\s]*?#})|(?<scriptBlock><(script)((?!<)[\s\S])*>((?!<\/script)[\s\S])*?{{[\s\S]*?<\/(script)>)|(?<styleBlock><(style)((?!<)[\s\S])*>((?!<\/style)[\s\S])*?{{[\s\S]*?<\/(style)>))/;
 
 export const parse: Parser<Node>["parse"] = (text) => {
 	const statementStack: Statement[] = [];
@@ -115,18 +115,17 @@ export const parse: Parser<Node>["parse"] = (text) => {
 				end: match.groups.endDelimiter,
 			};
 
-			if (keyword.startsWith("end")) {
+			if (keyword.startsWith("END")) {
 				let start: Statement | undefined;
 				while (!start) {
 					start = statementStack.pop();
 
 					if (!start) {
 						throw new Error(
-							`No opening statement found for closing statement "{% ${statement} %}".`,
+							`No opening statement found for closing statement "[% ${statement} %]".`,
 						);
-					}
-
-					if (keyword.replace(/end_?/, "") !== start.keyword) {
+						
+					} else if (keyword === "END" && ["ELSE", "ELSIF"].includes(start.keyword)) {
 						root.content = replaceAt(
 							root.content,
 							start.id,

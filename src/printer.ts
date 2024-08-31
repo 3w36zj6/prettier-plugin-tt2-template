@@ -67,19 +67,19 @@ const printStatement = (node: Statement): builders.Doc => {
 
 	const statemnt = builders.group(
 		builders.join(" ", [
-			["{%", node.delimiter.start],
+			["[%", node.delimiter.start],
 			multiline
 				? builders.indent(getMultilineGroup(node.content))
 				: node.content,
 			multiline
-				? [builders.hardline, node.delimiter.end, "%}"]
-				: [node.delimiter.end, "%}"],
+				? [builders.hardline, node.delimiter.end, "%]"]
+				: [node.delimiter.end, "%]"],
 		]),
 		{ shouldBreak: node.preNewLines > 0 },
 	);
 
 	if (
-		["else", "elif"].includes(node.keyword) &&
+		["ELSE", "ELSIF"].includes(node.keyword) &&
 		surroundingBlock(node)?.containsNewLines
 	) {
 		return [builders.dedent(builders.hardline), statemnt, builders.hardline];
@@ -220,7 +220,7 @@ const splitAtElse = (node: Node): string[] => {
 	const elseNodes = Object.values(node.nodes).filter(
 		(n) =>
 			n.type === "statement" &&
-			["else", "elif"].includes((n as Statement).keyword) &&
+			["ELSE", "ELSIF"].includes((n as Statement).keyword) &&
 			node.content.search(n.id) !== NOT_FOUND,
 	);
 	if (!elseNodes.length) {
