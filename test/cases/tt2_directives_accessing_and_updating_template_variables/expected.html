@@ -1,0 +1,80 @@
+<!-- https://template-toolkit.org/docs/manual/Directives.html#section_Accessing_and_Updating_Template_Variables -->
+
+<!-- GET -->
+
+[% GET foo %]
+
+[% foo %]
+
+[% foo %]
+[% bar.baz %]
+[% biz.baz(10) %]
+
+[% template.title or default.title %]
+
+[% score * 100 %]
+
+[% order.nitems ? checkout(order.total) : 'no items' %]
+
+[% 15 / 6 %]
+[% 15 div 6 %]
+[% 15 mod 6 %]
+
+<!-- CALL -->
+
+[% CALL dbi.disconnect %]
+
+[% CALL inc_page_counter(page_count) %]
+
+<!-- SET -->
+
+[% SET title = 'Hello World' %]
+
+[% title = 'Hello World' %]
+
+[% foo  = 'Foo' %]
+[% bar  =  foo %]
+[% cost = '$100' %]
+[% item = "$bar: ${cost}.00" %]
+
+[%
+  foo  = 'Foo'
+  bar  = foo
+  cost = '$100'
+  item = "$bar: ${cost}.00"
+%]
+
+[%
+  ten    = 10
+  twenty = 20
+  thirty = twenty + ten
+  forty  = 2 * twenty
+  fifty  = 100 div 2
+  six    = twenty mod 7
+%]
+
+[% copyright = '(C) Copyright' _ year _ ' ' _ author %]
+
+[% copyright = "(C) Copyright $year $author" %]
+
+<!-- DEFAULT -->
+
+[%
+  DEFAULT
+  name = 'John Doe'
+  id   = 'jdoe'
+%]
+
+[%
+  DEFAULT
+  title = 'Hello World'
+  bgcol = '#ffffff'
+%]
+<html>
+  <head>
+    <title>[% title %]</title>
+  </head>
+  <body bgcolor="[% bgcol %]">
+    <div>...etc...</div>
+  </body>
+</html>

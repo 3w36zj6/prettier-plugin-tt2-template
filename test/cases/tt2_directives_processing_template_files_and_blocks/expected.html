@@ -1,0 +1,204 @@
+<!-- https://template-toolkit.org/docs/manual/Directives.html#section_Processing_Template_Files_and_Blocks -->
+
+<!-- INSERT -->
+
+[% INSERT myfile %]
+
+[% INSERT foo %]
+[% INSERT /etc/passwd %]
+[% INSERT ../secret %]
+
+[% INSERT misc/legalese.txt %]
+[% INSERT 'dos98/Program Files/stupid' %]
+
+[%
+  language = 'en'
+  legalese = 'misc/legalese.txt'
+%]
+
+[% INSERT $legalese %]
+[% INSERT "$language/$legalese" %]
+
+[% INSERT legalese.txt + warning.txt %]
+[% INSERT  "$legalese" + warning.txt %]
+
+<!-- INCLUDE -->
+
+[% INCLUDE header %]
+
+[% INCLUDE table %]
+
+[% BLOCK table %]
+  <table>
+    <tr>
+      <th>Column 1</th>
+      <th>Column 2</th>
+    </tr>
+  </table>
+[% END %]
+
+[% myheader = 'my/misc/header' %]
+[% INCLUDE   myheader %]
+[% INCLUDE  $myheader %]
+[% INCLUDE "$myheader" %]
+
+[% title = 'Hello World' %]
+[% INCLUDE header %]
+
+<html>
+  <title>[% title %]</title>
+</html>
+
+[% INCLUDE table %]
+
+[% INCLUDE table title="Active Projects" %]
+
+[%
+  INCLUDE table
+  title   = "Active Projects"
+  bgcolor = "#80ff00"
+  border  = 2
+%]
+
+[% foo = 10 %]
+
+<p>
+  foo is originally [% foo %]
+  [% INCLUDE bar %]
+  foo is still [% foo %]
+</p>
+
+[% BLOCK bar %]
+  foo was [% foo %]
+  [% foo = 20 %]
+  foo is now [% foo %]
+[% END %]
+
+<!-- NOTE: The Perl code inside the template tags is not formatted. -->
+[%
+  foo = {
+      bar = 'Baz'
+  }
+%]
+
+[% INCLUDE somefile foo.bar='Boz' %]
+
+[% foo.bar %]
+
+[%
+  INCLUDE html/header + "site/$header" + site/menu
+  title = "My Groovy Web Site"
+%]
+
+<!-- PROCESS -->
+
+[% foo = 10 %]
+
+<p>
+  foo is [% foo %]
+  [% PROCESS bar %]
+  foo is [% foo %]
+</p>
+
+[% BLOCK bar %]
+  [% foo = 20 %]
+  changed foo to [% foo %]
+[% END %]
+
+[% foo = 10 %]
+
+<p>
+  foo is [% foo %]
+  [%
+    PROCESS bar
+    foo = 20
+  %]
+  foo is [% foo %]
+</p>
+
+[% BLOCK bar %]
+  this is bar, foo is [% foo %]
+[% END %]
+
+[% myheader = 'my/misc/header' %]
+[% PROCESS  myheader %]
+[% PROCESS $myheader %]
+
+[% PROCESS html/header + my/header %]
+
+<!-- WRAPPER -->
+
+[%
+  INCLUDE section/header
+  title = 'Quantum Mechanics'
+%]
+Quantum mechanics is a very interesting subject wish should prove easy for the
+layman to fully comprehend. [% INCLUDE section/footer %]
+
+[%
+  INCLUDE section/header
+  title = 'Desktop Nuclear Fusion for under $50'
+%]
+This describes a simple device which generates significant sustainable
+electrical power from common tap water by process of nuclear fusion.
+[% INCLUDE section/footer %]
+
+[%
+  WRAPPER section
+  title = 'Quantum Mechanics'
+%]
+  Quantum mechanics is a very interesting subject wish should prove easy for the
+  layman to fully comprehend.
+[% END %]
+
+[%
+  WRAPPER section
+  title = 'Desktop Nuclear Fusion for under $50'
+%]
+  This describes a simple device which generates significant sustainable
+  electrical power from common tap water by process of nuclear fusion.
+[% END %]
+
+<h2>[% title %]</h2>
+<p>[% content %]</p>
+
+[% INSERT legalese.txt WRAPPER big_bold_table %]
+
+[% BLOCK bold %]<b>[% content %]</b>[% END %]
+[% BLOCK italic %]<i>[% content %]</i>[% END %]
+
+[% WRAPPER bold+italic %]Hello World[% END %]
+
+<b><i>Hello World</i></b>
+
+<!-- BLOCK -->
+
+[% BLOCK tabrow %]
+  <tr>
+    <td>[% name %]</td>
+    <td>[% email %]</td>
+  </tr>
+[% END %]
+
+<table>
+  [% PROCESS tabrow  name='Fred'  email='fred@nowhere.com' %]
+  [% PROCESS tabrow  name='Alan'  email='alan@nowhere.com' %]
+</table>
+
+[% PROCESS tmpblk %]
+
+[% BLOCK tmpblk %]This is OK[% END %]
+
+[% julius = BLOCK %]
+  And Caesar's spirit, ranging for revenge, With Ate by his side come hot from
+  hell, Shall in these confines with a monarch's voice Cry 'Havoc', and let slip
+  the dogs of war; That this foul deed shall smell above the earth With carrion
+  men, groaning for burial.
+[% END %]
+
+[% MACRO locate BLOCK %]
+  The [% animal %] sat on the [% place %].
+[% END %]
+
+[% locate(animal='cat', place='mat') %]
+[% locate(animal='dog', place='log') %]

@@ -1,0 +1,53 @@
+<!-- https://template-toolkit.org/docs/manual/Directives.html#section_Miscellaneous -->
+
+<!-- META -->
+
+[% META
+   title   = 'The Cat in the Hat'
+   author  = 'Dr. Seuss'
+   version = 1.23
+%]
+
+<h1>[% template.title %]</h1>
+<h2>[% template.author %]</h2>
+
+[% USE date %]
+...
+[% template.name %] last modified
+at [% date.format(template.modtime) %]
+
+<html>
+  <head>
+    <title>[% template.title %]</title>
+  </head>
+  <body>
+[% META
+    title   = 'The Cat in the Hat'
+    author  = 'Dr. Seuss'
+    version = 1.23
+    year    = 2000
+%]
+    The cat in the hat sat on the mat.
+    <hr>
+    &copy; [% template.year %] [% template.author %]
+  </body>
+</html>
+
+<!-- TAGS -->
+
+[% TAGS <+ +> %]
+
+<+ INCLUDE header +>
+
+[% TAGS html %]
+
+<!-- DEBUG -->
+
+[% DEBUG on %]
+
+[% DEBUG off %]
+
+<!-- NOTE: Recommended to use prettier-ignore -->
+<!-- prettier-ignore-start -->
+[% DEBUG format '<!-- $file line $line : [% $text %] -->' %]
+<!-- prettier-ignore-end -->

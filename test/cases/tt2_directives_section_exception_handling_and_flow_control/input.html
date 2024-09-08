@@ -1,0 +1,185 @@
+<!-- https://template-toolkit.org/docs/manual/Directives.html#section_Exception_Handling_and_Flow_Control -->
+
+<!-- TRY / THROW / CATCH / FINAL -->
+
+[% TRY %]
+   <p>...blah...blah...</p>
+   [% CALL somecode %]
+   <p>...etc...</p>
+   [% INCLUDE someblock %]
+   <p>...and so on...</p>
+[% CATCH %]
+   An error occurred!
+[% END %]
+
+[% mydsn = 'dbi:MySQL:foobar' %]
+...
+
+[% TRY %]
+   [% USE DBI(mydsn) %]
+[% CATCH %]
+   ERROR! Type: [% error.type %]
+          Info: [% error.info %]
+[% END %]
+
+[% TRY %]
+   [% INCLUDE myfile %]
+   [% USE DBI(mydsn) %]
+   [% CALL somecode %]
+[% CATCH file %]
+   File Error! [% error.info %]
+[% CATCH DBI %]
+   [% INCLUDE database/error.html %]
+[% CATCH %]
+   [% error %]
+[% END %]
+
+<!-- NOTE: Unsupported format -->
+<!-- prettier-ignore-start -->
+[% TRY;
+       INCLUDE myfile;
+       USE DBI(mydsn);
+       CALL somecode;
+   CATCH file;
+       "File Error! $error.info";
+   CATCH DBI;
+       INCLUDE database/error.html;
+   CATCH;
+       error;
+   END
+%]
+<!-- prettier-ignore-end -->
+
+[% TRY %]
+   ...
+   [% TRY %]
+      [% INCLUDE $user.header %]
+   [% CATCH file %]
+      [% INCLUDE header %]
+   [% END %]
+   ...
+[% CATCH DBI %]
+   [% INCLUDE database/error.html %]
+[% END %]
+
+[% TRY %]
+   ...
+[% CATCH this %]
+   ...
+[% CATCH that %]
+   ...
+[% FINAL %]
+   All done!
+[% END %]
+
+[% TRY %]
+   <p>This gets printed</p>
+   [% THROW food 'carrots' %]
+   <p>This doesn't</p>
+[% CATCH food %]
+   culinary delights: [% error.info %]
+[% END %]
+
+[% TRY %]
+   <p>This gets printed</p>
+   [% THROW food 'carrots' %]
+   <p>This doesn't</p>
+[% CATCH food %]
+   [% CLEAR %]
+   culinary delights: [% error.info %]
+[% END %]
+
+<!-- NOTE: Unsupported format -->
+<!-- prettier-ignore-start -->
+[% TRY %]
+   ...
+[% CATCH DBI ;
+     INCLUDE database/error.html ;
+   CATCH DBI.connect ;
+     INCLUDE database/connect.html ;
+   CATCH ;
+     INCLUDE error.html ;
+   END
+%]
+<!-- prettier-ignore-end -->
+
+[% THROW food "Missing ingredients: $recipe.error" %]
+[% THROW user.login 'no user id: please login' %]
+[% THROW $myerror.type "My Error: $myerror.info" %]
+
+[% THROW food 'eggs' 'flour' msg='Missing Ingredients' %]
+
+<!-- NOTE: Unsupported format -->
+<!-- prettier-ignore-start -->
+[% TRY %]
+   [% foo %]
+[% CATCH myerr ;
+     "Error: $error" ;
+   END
+%]
+<!-- prettier-ignore-end -->
+
+[% TRY %]
+   ...
+[% CATCH myerror %]
+   [% error.info.errors.size or 'no';
+      error.info.errors.size == 1 ? ' error' : ' errors' %]
+   in [% error.info.module %]:
+      [% error.info.errors.join(', ') %].
+[% END %]
+
+<!-- NEXT -->
+
+[% FOREACH user IN users %]
+   [% NEXT IF user.isguest %]
+   Name: [% user.name %]    Email: [% user.email %]
+[% END %]
+
+<!-- LAST -->
+
+[% FOREACH user IN users %]
+   Name: [% user.name %]    Email: [% user.email %]
+   [% LAST IF some.condition %]
+[% END %]
+
+<!-- RETURN -->
+
+<p>Before</p>
+[% INCLUDE half_wit %]
+<p>After</p>
+
+[% BLOCK half_wit %]
+   <p>This is just half...</p>
+[% RETURN %]
+   <p>...a complete block</p>
+[% END %]
+
+<!-- STOP -->
+
+[% IF something.terrible.happened %]
+   [% INCLUDE fatal/error.html %]
+   [% STOP %]
+[% END %]
+
+[% TRY %]
+   [% USE DBI(mydsn) %]
+   ...
+[% CATCH DBI.connect %]
+   <h1>Cannot connect to the database: [% error.info %]</h1>
+   <p>
+     We apologise for the inconvenience.
+   </p>
+   [% INCLUDE footer %]
+   [% STOP %]
+[% END %]
+
+<!-- CLEAR -->
+
+[% TRY %]
+   <p>blah blah blah</p>
+   [% THROW some 'error' %]
+   <p>...</p>
+[% CATCH %]
+   [% CLEAR %]
+   [% error %]
+[% END %]

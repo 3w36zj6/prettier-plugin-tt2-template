@@ -1,0 +1,184 @@
+<!-- https://template-toolkit.org/docs/manual/Directives.html#section_Filters_Plugins_Macros_and_Perl -->
+
+<!-- FILTER -->
+
+[% FILTER html %]
+  HTML text may have < and > characters embedded which you want converted to the
+  correct HTML entities.
+[% END %]
+
+[% INCLUDE mytext FILTER html %]
+
+[% INCLUDE mytext | html %]
+
+[% INCLUDE mytext FILTER html FILTER html_para %]
+
+[% INCLUDE mytext | html | html_para %]
+
+[% FILTER repeat(3) %]blah[% END %]
+
+[% FILTER echo = repeat(2) %]
+  Is there anybody out there?
+[% END %]
+
+[% FILTER echo %]
+  Mother, should I build a wall?
+[% END %]
+
+[% myfilter = 'html' %]
+[% FILTER $myfilter %]
+  ...
+[% END %]
+
+[% FILTER $myfilter %]
+  ...
+[% END %]
+
+[% FILTER $myfilter %]
+  ...
+[% END %]
+
+<!-- USE -->
+
+[% USE myplugin %]
+
+[% USE CGI %]
+[% USE Cgi %]
+[% USE cgi %]
+
+[% USE Foo %]
+
+[% USE MyPlugin %]
+[% USE Foo.Bar %]
+
+[% USE file = IO.File('/tmp/mydata') %]
+
+[% WHILE (line = file.getline) %]
+  <!-- [% line %] -->
+[% END %]
+
+[% USE MyPlugin('foo', 123) %]
+
+[% USE url('/cgi-bin/foo', mode='submit', debug=1) %]
+
+[% USE table(mydata, rows=3) %]
+
+[% FOREACH row IN table.rows %]
+  <tr>
+    [% FOREACH item IN row %]
+      <td>[% item %]</td>
+    [% END %]
+  </tr>
+[% END %]
+
+[% USE scores = table(myscores, cols=5) %]
+
+[% FOREACH row IN scores.rows %]
+  ...
+[% END %]
+
+[% USE bold = format('<b>%s</b>') %]
+[% USE ital = format('<i>%s</i>') %]
+[% bold('This is bold') %]
+[% ital('This is italic') %]
+
+[% USE mycgi = URL('/cgi-bin/foo.pl', debug=1) %]
+<a href="[% mycgi %]">...</a>
+<a href="[% mycgi(mode='submit') %]">...</a>
+
+[%
+  USE CGI;
+  CGI.start_form;
+  CGI.checkbox_group( name   = 'colours',
+                      values = [ 'red' 'green' 'blue' ] );
+  CGI.popup_menu( name   = 'items',
+                  values = [ 'foo' 'bar' 'baz' ] );
+  CGI.end_form
+%]
+
+<!-- MACRO -->
+
+[% MACRO header INCLUDE header %]
+
+[% header %]
+
+[% INCLUDE header %]
+
+[% header(title='Hello World') %]
+
+[% INCLUDE header title='Hello World' %]
+
+[% MACRO header(title) INCLUDE header %]
+[% header('Hello World') %]
+[% header('Hello World', bgcol='#123456') %]
+
+[% INCLUDE header title='Hello World' %]
+[% INCLUDE header title='Hello World' bgcol='#123456' %]
+
+[% MACRO number(n) GET n.chunk(-3).join(',') %]
+[% number(1234567) %]
+
+[% MACRO header IF frames %]
+  [% INCLUDE frames/header %]
+[% ELSE %]
+  [% INCLUDE header %]
+[% END %]
+
+[% header %]
+
+[% MACRO header BLOCK %]
+  ...content...
+[% END %]
+
+[% header %]
+
+[% MACRO triple(n) PERL %]
+  my $n = $stash->get('n'); print $n * 3;
+[% END -%]
+
+<!-- PERL -->
+
+[% PERL %]
+  print $context->include('myfile');
+[% END %]
+
+[% PERL %]
+  $stash->set(foo => 'bar'); print "foo value: ", $stash->get('foo');
+[% END %]
+
+<!-- NOTE: Recommended to use prettier-ignore -->
+<!-- prettier-ignore-start -->
+[% PERL %]
+   print "foo\n";                           # OK
+   print PERLOUT "bar\n";                   # OK, same as above
+   print Template::Perl::PERLOUT "baz\n";   # OK, same as above
+   print STDOUT "qux\n";                    # WRONG!
+[% END %]
+<!-- prettier-ignore-end -->
+
+[% name = 'Fred Smith' %]
+
+[% PERL %]
+  print "[% name %]\n";
+[% END %]
+
+[% TRY %]
+  [% PERL %]
+    die "nothing to live for\n";
+  [% END %]
+[% CATCH %]
+  error: [% error.info %]
+[% END %]
+
+<!-- RAWPERL -->
+
+[% PROCESS  header %]
+
+<!-- NOTE: Recommended to use prettier-ignore -->
+<!-- prettier-ignore-start -->
+[% RAWPERL %]
+   $output .= "Some output\n";
+   ...
+   $output .= "Some more output\n";
+[% END %]
+<!-- prettier-ignore-end -->
