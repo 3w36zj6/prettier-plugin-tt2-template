@@ -48,13 +48,13 @@ Using range ignores is the best way to tell prettier to igone part of files. Mos
 ```html
 <!-- prettier-ignore-start -->
   <script>
-    window.someData = {{ data | safe }}
+    window.someData = [% data | safe %]
   </script>
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
   <style>
-    :root { --accent-color: {{ theme_accent_color }} }
+    :root { --accent-color: [% theme_accent_color %] }
   </style>
 <!-- prettier-ignore-end -->
 ```
@@ -63,13 +63,13 @@ Or using TT2 comments:
 ```tt2
 [%# prettier-ignore-start #%]
   <script>
-    window.someData = {{ data | safe }}
+    window.someData = [% data | safe %]
   </script>
 [%# prettier-ignore-end #%]
 
 [%# prettier-ignore-start #%]
   <style>
-    :root { --accent-color: {{ theme_accent_color }} }
+    :root { --accent-color: [% theme_accent_color %] }
   </style>
 [%# prettier-ignore-end #%]
 ```
