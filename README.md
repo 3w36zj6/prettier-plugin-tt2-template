@@ -5,7 +5,7 @@ Formatter plugin for Template Toolkit (TT2) template files.
 ## Install
 
 ```bash
-npm install --save-dev prettier prettier-plugin-tt2-template
+npm install --save-dev https://github.com/3w36zj6/prettier-plugin-tt2-template
 ```
 
 Add the plugin to your `.prettierrc`:
