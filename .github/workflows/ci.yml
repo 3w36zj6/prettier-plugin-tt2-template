@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node and Bun
+        uses: jdx/mise-action@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+
+  build:
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: ".tool-versions"
+      - run: bun install --frozen-lockfile
+      - run: bun run build
