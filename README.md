@@ -73,3 +73,8 @@ Or using TT2 comments:
   </style>
 [%# prettier-ignore-end #%]
 ```
+
+## LICENSE
+
+This repository is a fork of [@davidodenwald/prettier-plugin-jinja-template](https://github.com/davidodenwald/prettier-plugin-jinja-template). The license will continue to be the original MIT.
+
